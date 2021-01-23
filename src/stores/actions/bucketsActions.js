@@ -9,6 +9,10 @@ import {
   OPEN_NEW_BUCKET_FORM,
   CLOSE_NEW_BUCKET_FORM,
   SET_SELECTED_BUCKET,
+  OPEN_CLOSE_MODAL_BUCKET,
+  DELETE_BUCKET_START,
+  DELETE_BUCKET_SUCCESS,
+  DELETE_BUCKET_FAILURE,
 } from "../common/commonBucketsTypes";
 import { BASE_URL, HEADERS } from "../common/commonApiConfig";
 
@@ -71,6 +75,32 @@ export const setSelectedBucket = (bucketId) => {
   };
 };
 
+export const openCloseModalBucket = () => {
+  return {
+    type: OPEN_CLOSE_MODAL_BUCKET,
+  };
+};
+
+export const deleteBucketStart = () => {
+  return {
+    type: DELETE_BUCKET_START,
+  };
+};
+
+export const deleteBucketSuccess = (bucketId) => {
+  return {
+    type: DELETE_BUCKET_SUCCESS,
+    payload: bucketId,
+  };
+};
+
+export const deleteBucketFailure = (error) => {
+  return {
+    type: DELETE_BUCKET_FAILURE,
+    payload: error,
+  };
+};
+
 export const fetchBuckets = () => {
   return (dispatch) => {
     dispatch(fetchBucketsStart());
@@ -99,6 +129,26 @@ export const createBucket = (bucket) => {
       .catch((error) => {
         const errorMessage = error.message;
         dispatch(createBucketFailure(errorMessage));
+      });
+  };
+};
+
+export const deleteBucket = (bucketId) => {
+  return (dispatch) => {
+    dispatch(deleteBucketStart());
+    axios
+      .delete(`${BASE_URL}/buckets/${bucketId}`, HEADERS)
+      .then((response) => {
+        dispatch(deleteBucketSuccess(bucketId));
+        /*I know this line of code has no place here,
+        but for simplicity I do it this way
+         window.locations = "/" is used to return the application 
+         user to the home page after deleting the bucket*/
+        window.location = "/";
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        dispatch(deleteBucketFailure(errorMessage));
       });
   };
 };

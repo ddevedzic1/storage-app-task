@@ -3,12 +3,19 @@ import { Button, Nav, NavLink, NavItem, TabContent, TabPane, Row, Col } from 're
 import classnames from 'classnames';
 import BucketFiles from "./BucketFiles";
 import BucketDetails from "./BucketDetails";
+import { useSelector, useDispatch } from "react-redux";
+import { openCloseModalBucket, deleteBucket } from "../stores/actions/bucketsActions"
+import DeleteWarningMessage from "./DeleteWarningMessage";
 
 const BucketFilesDetails = (props) => {
+    const dispatch = useDispatch();
+    const isLoadingDeleteBucket = useSelector((state) => state.buckets.isLoadingDeleteBucket);
+    const isModalOpen = useSelector((state) => state.buckets.isModalOpen);
     const [activeTab, setActiveTab] = useState('1');
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
     }
+
     return (
         <div>
             <Nav tabs style={{ position: "relative", margin: "2em", marginBottom: "0" }}>
@@ -37,9 +44,19 @@ const BucketFilesDetails = (props) => {
                                 color="danger"
                                 className="float-right"
                                 style={{ position: "absolute", right: "0", marginBottom: "0.25em" }}
+                                onClick={() => { dispatch(openCloseModalBucket()) }}
                             >
                                 Delete Bucket
                                 </Button>
+                            <DeleteWarningMessage
+                                type="bucket"
+                                isOpenModal={isModalOpen}
+                                closeModal={() => { dispatch(openCloseModalBucket()) }}
+                                delete={() => {
+                                    dispatch(deleteBucket(props.bucketId))
+                                    dispatch(openCloseModalBucket())
+                                }}
+                            />
                         </div>
                         : null
                 }

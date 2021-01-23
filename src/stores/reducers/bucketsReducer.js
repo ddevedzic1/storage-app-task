@@ -8,6 +8,10 @@ import {
   OPEN_NEW_BUCKET_FORM,
   CLOSE_NEW_BUCKET_FORM,
   SET_SELECTED_BUCKET,
+  OPEN_CLOSE_MODAL_BUCKET,
+  DELETE_BUCKET_START,
+  DELETE_BUCKET_SUCCESS,
+  DELETE_BUCKET_FAILURE,
 } from "../common/commonBucketsTypes";
 
 const initialState = {
@@ -19,6 +23,9 @@ const initialState = {
   errorNewBucket: "",
   isNewBucketFormOpen: false,
   selectedBucket: {},
+  isModalOpen: false,
+  isLoadingDeleteBucket: false,
+  errorDeleteBucket: "",
 };
 
 const bucketsReducer = (state = initialState, action) => {
@@ -81,6 +88,32 @@ const bucketsReducer = (state = initialState, action) => {
         selectedBucket: state.data.find(
           (bucket) => bucket.id === action.payload
         ),
+      };
+    case OPEN_CLOSE_MODAL_BUCKET:
+      return {
+        ...state,
+        isModalOpen: !state.isModalOpen,
+      };
+    case DELETE_BUCKET_START:
+      return {
+        ...state,
+        isLoadingDeleteBucket: true,
+        errorDeleteBucket: "",
+      };
+    case DELETE_BUCKET_SUCCESS:
+      return {
+        ...state,
+        isLoadingDeleteBucket: false,
+        errorDeleteBucket: "",
+        data: state.data.filter((bucket) => {
+          return bucket.id !== action.payload;
+        }),
+      };
+    case DELETE_BUCKET_FAILURE:
+      return {
+        ...state,
+        isLoadingDeleteBucket: false,
+        errorDeleteBucket: action.payload,
       };
     default:
       return state;
