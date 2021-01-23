@@ -2,6 +2,9 @@ import {
   FETCH_BUCKETS_START,
   FETCH_BUCKETS_SUCCESS,
   FETCH_BUCKETS_FAILURE,
+  CREATE_BUCKET_START,
+  CREATE_BUCKET_SUCCESS,
+  CREATE_BUCKET_FAILURE,
 } from "../common/commonBucketsTypes";
 
 const initialState = {
@@ -9,6 +12,8 @@ const initialState = {
   data: [],
   errorFetchingData: "",
   numberOfBuckets: 0,
+  isLoadingNewBucket: false,
+  errorNewBucket: "",
 };
 
 const bucketsReducer = (state = initialState, action) => {
@@ -34,6 +39,26 @@ const bucketsReducer = (state = initialState, action) => {
         data: [],
         errorFetchingData: action.payload,
         numberOfBuckets: 0,
+      };
+    case CREATE_BUCKET_START:
+      return {
+        ...state,
+        errorNewBucket: "",
+        isLoadingNewBucket: true,
+      };
+    case CREATE_BUCKET_SUCCESS:
+      return {
+        ...state,
+        data: [...state.data, action.payload],
+        isLoadingNewBucket: false,
+        errorNewBucket: "",
+        numberOfBuckets: ++state.numberOfBuckets,
+      };
+    case CREATE_BUCKET_FAILURE:
+      return {
+        ...state,
+        isLoadingNewBucket: false,
+        errorNewBucket: action.payload,
       };
     default:
       return state;
