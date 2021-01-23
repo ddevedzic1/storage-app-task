@@ -7,6 +7,7 @@ import {
   CREATE_BUCKET_FAILURE,
   OPEN_NEW_BUCKET_FORM,
   CLOSE_NEW_BUCKET_FORM,
+  SET_SELECTED_BUCKET,
 } from "../common/commonBucketsTypes";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   isLoadingNewBucket: false,
   errorNewBucket: "",
   isNewBucketFormOpen: false,
+  selectedBucket: {},
 };
 
 const bucketsReducer = (state = initialState, action) => {
@@ -72,6 +74,13 @@ const bucketsReducer = (state = initialState, action) => {
       return {
         ...state,
         isNewBucketFormOpen: false,
+      };
+    case SET_SELECTED_BUCKET:
+      return {
+        ...state,
+        selectedBucket: state.data.find(
+          (bucket) => bucket.id === action.payload
+        ),
       };
     default:
       return state;

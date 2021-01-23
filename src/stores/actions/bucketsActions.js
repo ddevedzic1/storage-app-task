@@ -8,6 +8,7 @@ import {
   CREATE_BUCKET_FAILURE,
   OPEN_NEW_BUCKET_FORM,
   CLOSE_NEW_BUCKET_FORM,
+  SET_SELECTED_BUCKET,
 } from "../common/commonBucketsTypes";
 import { BASE_URL, HEADERS } from "../common/commonApiConfig";
 
@@ -60,6 +61,13 @@ export const openNewBucketForm = () => {
 export const closeNewBucketForm = () => {
   return {
     type: CLOSE_NEW_BUCKET_FORM,
+  };
+};
+
+export const setSelectedBucket = (bucketId) => {
+  return {
+    type: SET_SELECTED_BUCKET,
+    payload: bucketId,
   };
 };
 
