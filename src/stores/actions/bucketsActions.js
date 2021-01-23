@@ -6,6 +6,8 @@ import {
   CREATE_BUCKET_START,
   CREATE_BUCKET_SUCCESS,
   CREATE_BUCKET_FAILURE,
+  OPEN_NEW_BUCKET_FORM,
+  CLOSE_NEW_BUCKET_FORM,
 } from "../common/commonBucketsTypes";
 import { BASE_URL, HEADERS } from "../common/commonApiConfig";
 
@@ -49,19 +51,15 @@ export const createBucketFailure = (error) => {
   };
 };
 
-export const createBucket = (bucket) => {
-  return (dispatch) => {
-    dispatch(createBucketStart());
-    axios
-      .post(`${BASE_URL}/buckets`, bucket, HEADERS)
-      .then((response) => {
-        const newBucket = response.data.bucket;
-        dispatch(createBucketSuccess(newBucket));
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        dispatch(createBucketFailure(errorMessage));
-      });
+export const openNewBucketForm = () => {
+  return {
+    type: OPEN_NEW_BUCKET_FORM,
+  };
+};
+
+export const closeNewBucketForm = () => {
+  return {
+    type: CLOSE_NEW_BUCKET_FORM,
   };
 };
 
@@ -77,6 +75,22 @@ export const fetchBuckets = () => {
       .catch((error) => {
         const errorMessage = error.message;
         dispatch(fetchBucketsFailure(errorMessage));
+      });
+  };
+};
+
+export const createBucket = (bucket) => {
+  return (dispatch) => {
+    dispatch(createBucketStart());
+    axios
+      .post(`${BASE_URL}/buckets`, bucket, HEADERS)
+      .then((response) => {
+        const newBucket = response.data.bucket;
+        dispatch(createBucketSuccess(newBucket));
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        dispatch(createBucketFailure(errorMessage));
       });
   };
 };
