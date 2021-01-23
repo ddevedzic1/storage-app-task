@@ -1,13 +1,11 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/Navbar";
-import ErrorPage from "./pages/ErrorPage";
+import Layout from "./layouts/Layout";
 
 function App() {
   return (
     <div className="app">
-      <Navbar />
-      <ErrorPage />
+      <Layout />
     </div>
   );
 }
