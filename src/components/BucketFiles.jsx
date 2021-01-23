@@ -12,8 +12,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from "react-redux";
 import "./ComponentStyle.css";
+import { addFile } from "../stores/actions/filesActions"
+import filesize from "filesize";
 
-const BucketFiles = () => {
+
+const BucketFiles = (props) => {
+    const dispatch = useDispatch();
     const numberOfFiles = useSelector((state) => state.files.numberOfFiles);
     const filesData = useSelector((state) => state.files.data);
     const isLoading = useSelector((state) => state.files.isLoadingFetchingData);
@@ -37,8 +41,11 @@ const BucketFiles = () => {
                                     style={{ margin: "0.5em" }}
                                 >
                                     Upload Object
-                    <Input type="file"
-                                        hidden />
+                                <Input
+                                        type="file"
+                                        onChange={(e) => { dispatch(addFile(e.target.files[0], props.bucketId)) }}
+                                        hidden
+                                    />
                                 </Label>
                                 <Button
                                     outline

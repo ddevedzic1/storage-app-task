@@ -16,7 +16,7 @@ const BucketFilesDetailsPage = ({ match }) => {
     return (
         <div>
             <h3 style={{ marginLeft: "1em", marginTop: "1em" }}>{bucketName}</h3>
-            <BucketFilesDetails />
+            <BucketFilesDetails bucketId={match.params.bucketId} />
         </div>)
 }
 

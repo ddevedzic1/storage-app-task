@@ -4,3 +4,9 @@ export const HEADERS = {
     Authorization: "Token fe418c95-cbec-42f7-8014-8497f69e8d44",
   },
 };
+export const UPLOAD_FILE_HEADERS = {
+  headers: {
+    Authorization: "Token fe418c95-cbec-42f7-8014-8497f69e8d44",
+    "Content-Type": "multipart/form-data",
+  },
+};

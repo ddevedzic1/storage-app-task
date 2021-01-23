@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import BucketFiles from "./BucketFiles";
 import BucketDetails from "./BucketDetails";
 
-const BucketFilesDetails = () => {
+const BucketFilesDetails = (props) => {
     const [activeTab, setActiveTab] = useState('1');
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
@@ -48,7 +48,7 @@ const BucketFilesDetails = () => {
                 <TabPane tabId="1">
                     <Row>
                         <Col sm="12">
-                            <BucketFiles />
+                            <BucketFiles bucketId={props.bucketId} />
                         </Col>
                     </Row>
                 </TabPane>
