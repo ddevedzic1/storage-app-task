@@ -1,9 +1,6 @@
-html {
-  background-color: #f2f0f0;
-  height: 100vh;
-}
 .app {
   background-color: #f2f0f0;
   max-width: 1024px;
+  min-height: 100vh;
   margin: auto;
 }
