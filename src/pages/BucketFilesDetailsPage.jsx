@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFiles } from "../stores/actions/filesActions"
 import { setSelectedBucket } from "../stores/actions/bucketsActions"
+import BucketFilesDetails from "../components/BucketFilesDetails";
 
 const BucketFilesDetailsPage = ({ match }) => {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const BucketFilesDetailsPage = ({ match }) => {
     return (
         <div>
             <h3 style={{ marginLeft: "1em", marginTop: "1em" }}>{bucketName}</h3>
+            <BucketFilesDetails />
         </div>)
 }
 
