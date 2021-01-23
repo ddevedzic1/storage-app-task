@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col, Button, Table } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchBuckets } from "../stores/actions/bucketsActions"
+import { fetchBuckets, openNewBucketForm } from "../stores/actions/bucketsActions"
 import { Link } from "react-router-dom";
 import "./ComponentStyle.css";
 
@@ -23,11 +23,13 @@ const BucketList = () => {
                         <Col xs="6">
                             <p>All buckets ({buckets.numberOfBuckets})</p>
                         </Col>
-                        <Col xs="6"><Button
-                            color="dark"
-                            className="float-right"
-                        >
-                            Create New Bucket
+                        <Col xs="6">
+                            <Button
+                                color="dark"
+                                className="float-right"
+                                onClick={() => { dispatch(openNewBucketForm()) }}
+                            >
+                                Create New Bucket
                     </Button>
                         </Col>
                         <Col xs="12">
