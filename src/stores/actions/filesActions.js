@@ -6,6 +6,11 @@ import {
   ADD_FILE_START,
   ADD_FILE_SUCCESS,
   ADD_FILE_FAILURE,
+  SET_SELECTED_FILE,
+  OPEN_CLOSE_MODAL_FILE,
+  DELETE_FILE_START,
+  DELETE_FILE_SUCCESS,
+  DELETE_FILE_FAILURE,
 } from "../common/commonFilesTypes";
 import {
   BASE_URL,
@@ -53,6 +58,39 @@ export const addFileFailure = (error) => {
   };
 };
 
+export const setSelectedFile = (fileName) => {
+  return {
+    type: SET_SELECTED_FILE,
+    payload: fileName,
+  };
+};
+
+export const openCloseModalFile = () => {
+  return {
+    type: OPEN_CLOSE_MODAL_FILE,
+  };
+};
+
+export const deleteFileStart = () => {
+  return {
+    type: DELETE_FILE_START,
+  };
+};
+
+export const deleteFileSuccess = (fileName) => {
+  return {
+    type: DELETE_FILE_SUCCESS,
+    payload: fileName,
+  };
+};
+
+export const deleteFileFailure = (error) => {
+  return {
+    type: DELETE_FILE_FAILURE,
+    payload: error,
+  };
+};
+
 export const fetchFiles = (bucketId) => {
   return (dispatch) => {
     dispatch(fetchFilesStart());
@@ -93,6 +131,21 @@ export const addFile = (file, bucketId) => {
       .catch((error) => {
         const errorMessage = error.message;
         dispatch(addFileFailure(errorMessage));
+      });
+  };
+};
+
+export const deleteFile = (bucketId, fileName) => {
+  return (dispatch) => {
+    dispatch(deleteFileStart());
+    axios
+      .delete(`${BASE_URL}/buckets/${bucketId}/objects/${fileName}`, HEADERS)
+      .then((response) => {
+        dispatch(deleteFileSuccess(fileName));
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        dispatch(deleteFileFailure(errorMessage));
       });
   };
 };

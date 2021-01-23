@@ -5,6 +5,11 @@ import {
   ADD_FILE_START,
   ADD_FILE_SUCCESS,
   ADD_FILE_FAILURE,
+  SET_SELECTED_FILE,
+  OPEN_CLOSE_MODAL_FILE,
+  DELETE_FILE_START,
+  DELETE_FILE_SUCCESS,
+  DELETE_FILE_FAILURE,
 } from "../common/commonFilesTypes";
 
 const initialState = {
@@ -15,6 +20,10 @@ const initialState = {
   storageSize: 0,
   isLoadingAddFile: false,
   errorAddFile: "",
+  selectedFile: "",
+  isModalOpen: false,
+  isLoadingDeleteFile: false,
+  errorDeleteFile: "",
 };
 
 const filesReducer = (state = initialState, action) => {
@@ -66,6 +75,43 @@ const filesReducer = (state = initialState, action) => {
         ...state,
         isLoadingAddFile: false,
         errorAddFile: action.payload,
+      };
+    case SET_SELECTED_FILE:
+      return {
+        ...state,
+        selectedFile: action.payload,
+      };
+    case OPEN_CLOSE_MODAL_FILE:
+      return {
+        ...state,
+        isModalOpen: !state.isModalOpen,
+      };
+    case DELETE_FILE_START:
+      return {
+        ...state,
+        isLoadingDeleteFile: true,
+        errorDeleteFile: "",
+      };
+    case DELETE_FILE_SUCCESS:
+      return {
+        ...state,
+        isLoadingDeleteFile: false,
+        errorDeleteFile: "",
+        numberOfFiles: --state.numberOfFiles,
+        data: state.data.filter((file) => {
+          return file.name !== action.payload;
+        }),
+        storageSize:
+          state.storageSize -
+          state.data.filter((file) => {
+            return file.name === action.payload;
+          })[0].size,
+      };
+    case DELETE_FILE_FAILURE:
+      return {
+        ...state,
+        isLoadingDeleteFile: false,
+        errorDeleteFile: action.payload,
       };
     default:
       return state;

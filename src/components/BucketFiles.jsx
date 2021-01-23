@@ -12,8 +12,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from "react-redux";
 import "./ComponentStyle.css";
-import { addFile } from "../stores/actions/filesActions"
+import { addFile, openCloseModalFile, setSelectedFile, deleteFile } from "../stores/actions/filesActions"
 import filesize from "filesize";
+import DeleteWarningMessage from "./DeleteWarningMessage";
 
 
 const BucketFiles = (props) => {
@@ -21,6 +22,8 @@ const BucketFiles = (props) => {
     const numberOfFiles = useSelector((state) => state.files.numberOfFiles);
     const filesData = useSelector((state) => state.files.data);
     const isLoading = useSelector((state) => state.files.isLoadingFetchingData);
+    const isModalFileOpen = useSelector((state) => state.files.isModalOpen);
+    const selectedFile = useSelector((state) => state.files.selectedFile);
 
     return (
         <div
@@ -52,9 +55,21 @@ const BucketFiles = (props) => {
                                     color="danger"
                                     className="float-right"
                                     style={{ margin: "0.5em" }}
+                                    onClick={() => { dispatch(openCloseModalFile()) }}
                                 >
                                     Delete Object
                                 </Button>
+                                <DeleteWarningMessage
+                                    type="object"
+                                    isOpenModal={isModalFileOpen}
+                                    closeModal={() => { dispatch(openCloseModalFile()) }}
+                                    delete={() => {
+                                        if (!!selectedFile)
+                                            dispatch(deleteFile(props.bucketId, selectedFile))
+                                        dispatch(openCloseModalFile())
+                                        dispatch(setSelectedFile(""))
+                                    }}
+                                />
                             </Col>
                             <Col xs="12">
                                 <Table
@@ -75,7 +90,7 @@ const BucketFiles = (props) => {
                                                             icon={faFileAlt}
                                                             style={{ marginRight: "0.75em", fontSize: "1.5em" }}
                                                         />
-                                                        <p>{file.name}</p>
+                                                        <Button color="link" onClick={() => { dispatch(setSelectedFile(file.name)) }}>{file.name}</Button>
                                                     </td>
                                                     <td>{new Date(file.last_modified).toLocaleDateString()}</td>
                                                     <td>{filesize(file.size)}</td>
