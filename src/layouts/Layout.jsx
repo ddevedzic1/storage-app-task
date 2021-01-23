@@ -1,8 +1,9 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import ErrorPage from "../pages/ErrorPage";
 import { Switch, Route } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import BucketListPage from "../pages/BucketListPage"
+import BucketFilesDetailsPage from "../pages/BucketFilesDetailsPage"
+import ErrorPage from "../pages/ErrorPage";
 
 const Layout = () => {
     return (
@@ -10,6 +11,7 @@ const Layout = () => {
             <Navbar />
             <Switch>
                 <Route path="/" exact component={BucketListPage} />
+                <Route path="/buckets/:bucketId" component={BucketFilesDetailsPage} />
                 <Route component={ErrorPage} />
             </Switch>
         </div>
