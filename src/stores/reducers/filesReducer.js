@@ -2,6 +2,9 @@ import {
   FETCH_FILES_START,
   FETCH_FILES_SUCCESS,
   FETCH_FILES_FAILURE,
+  ADD_FILE_START,
+  ADD_FILE_SUCCESS,
+  ADD_FILE_FAILURE,
 } from "../common/commonFilesTypes";
 
 const initialState = {
@@ -10,6 +13,8 @@ const initialState = {
   errorFetchingData: "",
   numberOfFiles: 0,
   storageSize: 0,
+  isLoadingAddFile: false,
+  errorAddFile: "",
 };
 
 const filesReducer = (state = initialState, action) => {
@@ -40,6 +45,27 @@ const filesReducer = (state = initialState, action) => {
         errorFetchingData: action.payload,
         numberOfFiles: 0,
         storageSize: 0,
+      };
+    case ADD_FILE_START:
+      return {
+        ...state,
+        errorAddFile: "",
+        isLoadingAddFile: true,
+      };
+    case ADD_FILE_SUCCESS:
+      return {
+        ...state,
+        data: [...state.data, action.payload],
+        isLoadingAddFile: false,
+        errorAddFile: "",
+        numberOfFiles: ++state.numberOfFiles,
+        storageSize: state.storageSize + action.payload.size,
+      };
+    case ADD_FILE_FAILURE:
+      return {
+        ...state,
+        isLoadingAddFile: false,
+        errorAddFile: action.payload,
       };
     default:
       return state;
