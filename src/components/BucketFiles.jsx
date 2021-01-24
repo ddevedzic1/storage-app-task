@@ -1,22 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col, Table, Button, Label, Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from "react-redux";
 import "./ComponentStyle.css";
-import { addFile, openCloseModalFile, setSelectedFile, deleteFile } from "../stores/actions/filesActions"
+import { addFile, setSelectedFile } from "../stores/actions/filesActions"
 import filesize from "filesize";
-import DeleteWarningMessage from "./DeleteWarningMessage";
-
+import DeleteFile from "./DeleteFile";
 
 const BucketFiles = (props) => {
     const dispatch = useDispatch();
     const numberOfFiles = useSelector((state) => state.files.numberOfFiles);
     const filesData = useSelector((state) => state.files.data);
     const isLoading = useSelector((state) => state.files.isLoadingFetchingData);
-    const isModalFileOpen = useSelector((state) => state.files.isModalOpen);
-    const selectedFile = useSelector((state) => state.files.selectedFile);
-
+    useEffect(() => {
+        dispatch(setSelectedFile(""))
+    }, [])
     return (
         <div
             className="componentBackground"
@@ -42,26 +41,7 @@ const BucketFiles = (props) => {
                                         hidden
                                     />
                                 </Label>
-                                <Button
-                                    outline
-                                    color="danger"
-                                    className="float-right"
-                                    style={{ margin: "0.5em" }}
-                                    onClick={() => { dispatch(openCloseModalFile()) }}
-                                >
-                                    Delete Object
-                                </Button>
-                                <DeleteWarningMessage
-                                    type="object"
-                                    isOpenModal={isModalFileOpen}
-                                    closeModal={() => { dispatch(openCloseModalFile()) }}
-                                    delete={() => {
-                                        if (!!selectedFile)
-                                            dispatch(deleteFile(props.bucketId, selectedFile))
-                                        dispatch(openCloseModalFile())
-                                        dispatch(setSelectedFile(""))
-                                    }}
-                                />
+                                <DeleteFile bucketId={props.bucketId} />
                             </Col>
                             <Col xs="12">
                                 <Table

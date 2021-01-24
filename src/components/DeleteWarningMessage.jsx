@@ -1,14 +1,5 @@
 import React from "react";
-import {
-    Row,
-    Button,
-    Col,
-    Table,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    Container
-} from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
 
 const DeleteWarningMessage = (props) => {
     return (
