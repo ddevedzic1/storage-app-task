@@ -14,6 +14,7 @@ const BucketFiles = (props) => {
     const numberOfFiles = useSelector((state) => state.files.numberOfFiles);
     const filesData = useSelector((state) => state.files.data);
     const isLoading = useSelector((state) => state.files.isLoadingFetchingData);
+    const error = useSelector((state) => state.files.errorFetchingData);
     useEffect(() => {
         dispatch(setSelectedFile(""))
     }, [])
@@ -25,51 +26,53 @@ const BucketFiles = (props) => {
             {
                 isLoading ?
                     <h5>Loading...</h5> :
-                    <Container>
-                        <Row>
-                            <Col xs="6">
-                                <p>All files ({numberOfFiles})</p>
-                            </Col>
-                            <Col xs="6">
-                                <UploadFile bucketId={props.bucketId} />
-                                <DeleteFile bucketId={props.bucketId} />
-                            </Col>
-                            <Col xs="12">
-                                <Table
-                                    style={{ borderStyle: "solid", borderWidth: "2px" }}>
-                                    <thead className="thead-light">
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Last modified</th>
-                                            <th>Size</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filesData.map(file => {
-                                            return (
-                                                <tr key={file.last_modified}>
-                                                    <td>
-                                                        <FontAwesomeIcon
-                                                            icon={faFileAlt}
-                                                            style={{ marginRight: "0.75em", fontSize: "1.5em" }}
-                                                        />
-                                                        <Button
-                                                            color="link"
-                                                            onClick={() => { dispatch(setSelectedFile(file.name)) }}
-                                                        >
-                                                            {file.name}
-                                                        </Button>
-                                                    </td>
-                                                    <td>{new Date(file.last_modified).toLocaleDateString()}</td>
-                                                    <td>{filesize(file.size)}</td>
-                                                </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </Table>
-                            </Col>
-                        </Row>
-                    </Container>
+                    error ?
+                        <p>{error}</p> :
+                        <Container>
+                            <Row>
+                                <Col xs="6">
+                                    <p>All files ({numberOfFiles})</p>
+                                </Col>
+                                <Col xs="6">
+                                    <UploadFile bucketId={props.bucketId} />
+                                    <DeleteFile bucketId={props.bucketId} />
+                                </Col>
+                                <Col xs="12">
+                                    <Table
+                                        style={{ borderStyle: "solid", borderWidth: "2px" }}>
+                                        <thead className="thead-light">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Last modified</th>
+                                                <th>Size</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filesData.map(file => {
+                                                return (
+                                                    <tr key={file.last_modified}>
+                                                        <td>
+                                                            <FontAwesomeIcon
+                                                                icon={faFileAlt}
+                                                                style={{ marginRight: "0.75em", fontSize: "1.5em" }}
+                                                            />
+                                                            <Button
+                                                                color="link"
+                                                                onClick={() => { dispatch(setSelectedFile(file.name)) }}
+                                                            >
+                                                                {file.name}
+                                                            </Button>
+                                                        </td>
+                                                        <td>{new Date(file.last_modified).toLocaleDateString()}</td>
+                                                        <td>{filesize(file.size)}</td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                </Col>
+                            </Row>
+                        </Container>
             }
         </div>)
 }

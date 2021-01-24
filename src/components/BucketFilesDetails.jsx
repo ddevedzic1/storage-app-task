@@ -7,6 +7,8 @@ import DeleteBucket from "./DeleteBucket";
 import { useSelector } from "react-redux";
 
 const BucketFilesDetails = (props) => {
+    const buckets = useSelector((state) => state.buckets);
+    const files = useSelector((state) => state.files);
     const isLoadingDeleteFile = useSelector((state) => state.files.isLoadingDeleteFile);
     const isLoadingDeleteBucket = useSelector((state) => state.buckets.isLoadingDeleteBucket);
     const isLoadingUploadFile = useSelector((state) => state.files.isLoadingAddFile);
@@ -16,8 +18,12 @@ const BucketFilesDetails = (props) => {
     }
     return (
         <div>
-            { isLoadingDeleteFile || isLoadingDeleteBucket || isLoadingUploadFile ?
+            { files.isLoadingAddFile || files.isLoadingDeleteFile || buckets.isLoadingDeleteBucket ?
                 <p style={{ textAlign: "center" }}>Loading...</p>
+                : null
+            }
+            { files.errorAddFile || files.errorDeleteFile || buckets.errorDeleteBucket ?
+                <p style={{ textAlign: "center" }}>Error...</p>
                 : null
             }
             <Nav tabs style={{ position: "relative", margin: "2em", marginBottom: "0" }}>
