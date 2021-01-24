@@ -13,7 +13,7 @@ const BucketDetails = () => {
             style={{ marginTop: "0" }}
         >
             {
-                !(bucket.name && bucket.location.name) ?
+                !(bucket && bucket.name && bucket.location.name) ?
                     <p>Loading...</p> :
                     <Row>
                         <Col xs="6" sm="4" md="3">

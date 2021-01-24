@@ -1,13 +1,5 @@
 import React from "react";
-import {
-    Container,
-    Row,
-    Col,
-    Table,
-    Button,
-    Label,
-    Input,
-} from 'reactstrap';
+import { Container, Row, Col, Table, Button, Label, Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from "react-redux";
@@ -90,7 +82,12 @@ const BucketFiles = (props) => {
                                                             icon={faFileAlt}
                                                             style={{ marginRight: "0.75em", fontSize: "1.5em" }}
                                                         />
-                                                        <Button color="link" onClick={() => { dispatch(setSelectedFile(file.name)) }}>{file.name}</Button>
+                                                        <Button
+                                                            color="link"
+                                                            onClick={() => { dispatch(setSelectedFile(file.name)) }}
+                                                        >
+                                                            {file.name}
+                                                        </Button>
                                                     </td>
                                                     <td>{new Date(file.last_modified).toLocaleDateString()}</td>
                                                     <td>{filesize(file.size)}</td>

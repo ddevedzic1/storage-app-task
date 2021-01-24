@@ -22,7 +22,7 @@ const initialState = {
   isLoadingNewBucket: false,
   errorNewBucket: "",
   isNewBucketFormOpen: false,
-  selectedBucket: {},
+  selectedBucket: { id: "", name: "", location: { id: "", name: "" } },
   isModalOpen: false,
   isLoadingDeleteBucket: false,
   errorDeleteBucket: "",
@@ -85,9 +85,9 @@ const bucketsReducer = (state = initialState, action) => {
     case SET_SELECTED_BUCKET:
       return {
         ...state,
-        selectedBucket: state.data.find(
-          (bucket) => bucket.id === action.payload
-        ),
+        selectedBucket:
+          state.data.find((bucket) => bucket.id === action.payload) ||
+          initialState.selectedBucket,
       };
     case OPEN_CLOSE_MODAL_BUCKET:
       return {

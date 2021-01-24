@@ -7,9 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { openCloseModalBucket, deleteBucket } from "../stores/actions/bucketsActions"
 import DeleteWarningMessage from "./DeleteWarningMessage";
 
+
 const BucketFilesDetails = (props) => {
     const dispatch = useDispatch();
-    const isLoadingDeleteBucket = useSelector((state) => state.buckets.isLoadingDeleteBucket);
     const isModalOpen = useSelector((state) => state.buckets.isModalOpen);
     const [activeTab, setActiveTab] = useState('1');
     const toggle = tab => {
@@ -72,7 +72,7 @@ const BucketFilesDetails = (props) => {
                 <TabPane tabId="2">
                     <Row>
                         <Col sm="12">
-                            <BucketDetails />
+                            <BucketDetails bucketId={props.bucketId} />
                         </Col>
                     </Row>
                 </TabPane>
