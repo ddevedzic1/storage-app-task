@@ -9,13 +9,14 @@ import { useSelector } from "react-redux";
 const BucketFilesDetails = (props) => {
     const isLoadingDeleteFile = useSelector((state) => state.files.isLoadingDeleteFile);
     const isLoadingDeleteBucket = useSelector((state) => state.buckets.isLoadingDeleteBucket);
+    const isLoadingUploadFile = useSelector((state) => state.files.isLoadingAddFile);
     const [activeTab, setActiveTab] = useState('1');
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
     }
     return (
         <div>
-            { isLoadingDeleteFile || isLoadingDeleteBucket ?
+            { isLoadingDeleteFile || isLoadingDeleteBucket || isLoadingUploadFile ?
                 <p style={{ textAlign: "center" }}>Loading...</p>
                 : null
             }

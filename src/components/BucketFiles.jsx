@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
-import { Container, Row, Col, Table, Button, Label, Input } from 'reactstrap';
+import { Container, Row, Col, Table, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from "react-redux";
 import "./ComponentStyle.css";
-import { addFile, setSelectedFile } from "../stores/actions/filesActions"
+import { setSelectedFile } from "../stores/actions/filesActions"
 import filesize from "filesize";
 import DeleteFile from "./DeleteFile";
+import UploadFile from "./UploadFile";
 
 const BucketFiles = (props) => {
     const dispatch = useDispatch();
@@ -30,17 +31,7 @@ const BucketFiles = (props) => {
                                 <p>All files ({numberOfFiles})</p>
                             </Col>
                             <Col xs="6">
-                                <Label
-                                    className="btn btn-outline-secondary float-right"
-                                    style={{ margin: "0.5em" }}
-                                >
-                                    Upload Object
-                                <Input
-                                        type="file"
-                                        onChange={(e) => { dispatch(addFile(e.target.files[0], props.bucketId)) }}
-                                        hidden
-                                    />
-                                </Label>
+                                <UploadFile bucketId={props.bucketId} />
                                 <DeleteFile bucketId={props.bucketId} />
                             </Col>
                             <Col xs="12">
