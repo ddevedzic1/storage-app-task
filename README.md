@@ -1,4 +1,7 @@
-# Quick Start
+This is a simple object storage application. Application provide a way to list, add and remove buckets as well as add, list and remove objects from a bucket.
+
+- wireframes for the application’s design and UX : `https://challenge.3fs.si/storage/docs/wireframes.pdf`
+- API specification:  `https://challenge.3fs.si/storage/docs`
 
 ## Run locally
 ```bash
